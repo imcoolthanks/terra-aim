@@ -138,11 +138,11 @@ def check_fired():
         cur = conn.cursor()
         query = """SELECT *
                 FROM clicked
-                WHERE clicked.time < ? 
+                WHERE clicked.time > ? 
                 ORDER BY clicked.time DESC
                 LIMIT 1
                 """
-        cur.execute(query, (currTime, ))
+        cur.execute(query, (deltaCurrTime, ))
         fireRows = list(cur.fetchall())
         x = 0
         y = 0
@@ -190,7 +190,7 @@ def check_fired():
             print(x, y)
         
         data = {
-            "fired" : len(fireRows) > 0,
+            "fired" : True,
             "projectedX" : x,
             "projectedY" : y
         }
