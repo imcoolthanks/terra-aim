@@ -132,7 +132,7 @@ def check_fired():
     if request.method == 'GET':
         print("GETTTTTT")
         currTime = datetime.now()
-        deltaCurrTime = datetime.now() - timedelta(seconds=0.01)
+        deltaCurrTime = datetime.now() - timedelta(seconds=0.005)
 
         conn = sql.connect("data.db")
         cur = conn.cursor()
