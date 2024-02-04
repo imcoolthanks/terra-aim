@@ -49,7 +49,6 @@ def insert_heartrate_database(currentTime, heartrate):
     insert_query = """INSERT INTO heartrate (time, heartrate) 
                                         VALUES (?,?)"""
     cur.execute(insert_query, (currentTime, heartrate))
-    print(currentTime, heartrate)
 
     #Save changes
     conn.commit()
@@ -81,6 +80,44 @@ def insert_position_database(currentTime, dx, dy):
 
     conn.close()
     print("Loading completed")
+
+def create_examples_clicked():
+    #Create database file/connect to it
+    conn = sql.connect("data.db")
+
+    #Create table
+    conn.execute("""CREATE TABLE clicked (time datetime) """)
+
+    print("table created")
+
+    conn.close()
+
+def insert_clicked_database(currentTime):
+    conn = sql.connect("data.db")
+    cur = conn.cursor()
+
+    #Load all rows
+    insert_query = """INSERT INTO clicked (time) 
+                                        VALUES (?)"""
+    cur.execute(insert_query, (currentTime, ))
+
+    #Save changes
+    conn.commit()
+
+    conn.close()
+    print("Loading completed")
+
+def list_clicked():
+    conn = sql.connect("data.db")
+    cur = conn.cursor()
+
+    cur.execute("select * from clicked")
+    
+    rows = list(cur.fetchall())
+
+    conn.close()
+
+    return rows != []
 
 # ---- DEBUGGING ---------
 def list_gyroscope(): 
@@ -122,10 +159,12 @@ def list_position():
 # -------------------------
 
 def reset():
+    create_examples_clicked()
     create_examples_gyroscope()
     create_examples_heartrate()
     create_examples_position()
-
+    
+    insert_clicked_database(datetime.now())
     insert_gyroscope_database(datetime.now(), 1, 1)
     insert_heartrate_database(datetime.now(), 50)
     insert_position_database(datetime.now(), 1, 1)
@@ -133,5 +172,6 @@ def reset():
     list_gyroscope()
     list_heartrate()
     list_position()
+    list_clicked()
 
-
+reset()

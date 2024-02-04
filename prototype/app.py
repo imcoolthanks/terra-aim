@@ -3,7 +3,7 @@
 import sqlite3 as sql
 from flask import Flask, request, jsonify
 from flask import render_template
-from database import create_examples_gyroscope, create_examples_position, insert_gyroscope_database, insert_position_database, list_gyroscope, list_position, create_examples_heartrate, insert_heartrate_database, list_heartrate
+from prototype.database import create_examples_gyroscope, create_examples_position, insert_gyroscope_database, insert_position_database, list_gyroscope, list_position, create_examples_heartrate, insert_heartrate_database, list_heartrate, create_examples_clicked, insert_clicked_database, list_clicked
 from coordinateMap import CoordinateMap
 
 import requests
@@ -22,14 +22,17 @@ def home():
 def upload_gyroscope():                
     if request.method == 'POST':
         # Get gyroscope data
-        yaw = 0
-        pitch = 0
+        res = request.json
+        yaw = res['pow']
+        pitch = res['pitch']
+
+        # Pre-process data
 
         currentTime = datetime.now()
 
         insert_gyroscope_database(currentTime, yaw, pitch)   
-        print(list_gyroscope())
-    return render_template('home2.html')
+        return render_template('success.html')
+    return render_template('fail.html')
 
 @app.route("/upload_heartrate/", methods = ['POST', 'GET'])
 def upload_heartrate():                
@@ -39,19 +42,21 @@ def upload_heartrate():
         ts = res['ts']
         heartrate = res['val']
         insert_heartrate_database(ts, heartrate)
-    return render_template('home2.html')
+        return render_template('success.html')
+    return render_template('fail.html')
 
 @app.route("/upload_position/", methods = ['POST', 'GET'])
 def upload_position():                
     if request.method == 'POST':
-        dx = request.json['x']
-        dy = request.json['y']
+        res = request.json
+        dx = res['x']
+        dy = res['y']
 
         currentTime = datetime.now()
 
         insert_position_database(currentTime, dx, dy)   
-        
-    return render_template('home2.html')
+        return render_template('success.html')
+    return render_template('fail.html')
 
 @app.route("/get_average_heartrate/", methods = ['POST', 'GET'])
 def get_average_heartrate():
@@ -62,13 +67,11 @@ def get_average_heartrate():
             "value" : avg
         }
         return jsonify(data)
-    return render_template('home2.html')
+    return render_template('fail.html')
 
 @app.route("/get_position/", methods = ['POST', 'GET'])
 def calculate_pos():                
     if request.method == 'GET':
-        # Pre-processing of data happens here
-
         currentTime = datetime.now()
 
         conn = sql.connect("data.db")
@@ -103,7 +106,7 @@ def calculate_pos():
         dy = rows[0][2]
         
         # Call heyang's function
-        x, y = coordinateMap.get_position(dx, dy, yaw, pitch)
+        x, y = coordinateMap.get_position(-dx, -dy, yaw, pitch)
 
         print(x, y)
 
@@ -113,4 +116,36 @@ def calculate_pos():
             "projectedY" : 0.5, 
         }
         return jsonify(data)
-    return render_template('home2.html')
+    return render_template('fail.html')
+
+@app.route("/upload_time_fired/", methods = ['POST', 'GET'])
+def upload_time_fired():
+    if request.method == 'POST':
+        time_fired = request.json['time_fired']
+        insert_clicked_database(time_fired)        
+        return render_template('success.html')
+    return render_template('fail.html')
+
+@app.route("/check_fired/", methods = ['POST', 'GET'])
+def check_fired():
+    if request.method == 'GET':
+        currTime = datetime.now()
+
+        conn = sql.connect("data.db")
+        cur = conn.cursor()
+        query = """SELECT *
+                FROM clicked
+                WHERE clicked.time < ?
+                ORDER BY clicked.time DESC
+                LIMIT 1
+                """
+        cur.execute(query, (currTime,))
+        rows = list(cur.fetchall())
+        
+        data = {
+            "fired" : True
+        }
+
+        return jsonify(data)
+        
+    return render_template('fail.html')
