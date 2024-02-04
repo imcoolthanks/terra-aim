@@ -64,7 +64,13 @@ def upload_position():
 def get_average_heartrate():
     if request.method == 'GET':
         heartrates = list_heartrate()
-        avg = sum(map(lambda x: x[1], heartrates)) / len(heartrates)
+        nonzeros = filter(lambda y: y != 0, map(lambda x: x[1], heartrates))
+        if len(nonzeros) == 0:
+            data = {
+                "value" : 0
+            }
+            return jsonify(data)
+        avg = sum(nonzeros) / len(nonzeros)
         data = {
             "value" : avg
         }
