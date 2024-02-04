@@ -1,7 +1,9 @@
+# py -m flask --app="prototype/app.py" run
+
 import sqlite3 as sql
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask import render_template
-from database import create_examples_gyroscope, create_examples_position, insert_gyroscope_database, insert_position_database, list_gyroscope, list_position
+from database import create_examples_gyroscope, create_examples_position, insert_gyroscope_database, insert_position_database, list_gyroscope, list_position, create_examples_heartrate, insert_heartrate_database, list_heartrate
 from coordinateMap import CoordinateMap
 
 import requests
@@ -29,6 +31,16 @@ def upload_gyroscope():
         print(list_gyroscope())
     return render_template('home2.html')
 
+@app.route("/upload_heartrate/", methods = ['POST', 'GET'])
+def upload_heartrate():                
+    if request.method == 'POST':
+        # Get heartrate data
+        res = request.json['d']
+        ts = res['ts']
+        heartrate = res['val']
+        insert_heartrate_database(ts, heartrate)   
+    return render_template('home2.html')
+
 @app.route("/upload_position/", methods = ['POST', 'GET'])
 def upload_position():                
     if request.method == 'POST':
@@ -41,10 +53,22 @@ def upload_position():
         insert_position_database(currentTime, dx, dy)   
     return render_template('home2.html')
 
+@app.route("/get_average_heartrate/", methods = ['POST', 'GET'])
+def get_average_heartrate():
+    if request.method == 'GET':
+        heartrates = list_heartrate()
+        avg = sum(map(lambda x: x[1], heartrates)) / len(heartrates)
+        data = {
+            "value" : avg
+        }
+        return jsonify(data)
+    return render_template('home2.html')
+
 @app.route("/get_position/", methods = ['POST', 'GET'])
 def calculate_pos():                
     if request.method == 'GET':
         # Pre-processing of data happens here
+
         currentTime = datetime.now()
 
         conn = sql.connect("data.db")
@@ -71,7 +95,7 @@ def calculate_pos():
         LIMIT 1
         """
 
-        coordinateMap = CoordinateMap((0, 0, 0, 0), (1, 1, 90, 90))
+        coordinateMap = CoordinateMap(((0, 0, 0, 0), (1, 1, 90, 90)), 5)
         cur.execute(query, (currentTime,))
         rows = list(cur.fetchall())
         
@@ -80,10 +104,12 @@ def calculate_pos():
         
         # Call heyang's function
         x, y = coordinateMap.get_position(dx, dy, yaw, pitch)
+
         print(x, y)
 
-
-
-
-        
-        return render_template('home2.html')
+        data = { 
+            "projectedX" : 0.5, 
+            "projectedY" : 0.5, 
+        }
+        return jsonify(data)
+    return render_template('home2.html')
