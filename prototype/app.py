@@ -16,7 +16,7 @@ app = Flask(__name__)
 #Basic functions to load each page, need modifications
 @app.route("/")
 def home():
-    return render_template('home.html')
+    return render_template('index.html')
 
 @app.route("/upload_gyroscope/", methods = ['POST', 'GET'])
 def upload_gyroscope():            
