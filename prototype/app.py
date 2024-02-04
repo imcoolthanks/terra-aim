@@ -19,7 +19,8 @@ def home():
     return render_template('home.html')
 
 @app.route("/upload_gyroscope/", methods = ['POST', 'GET'])
-def upload_gyroscope():                
+def upload_gyroscope(): 
+    print("Gyroscope")               
     if request.method == 'POST':
         # Get gyroscope data
         res = request.json
@@ -120,6 +121,7 @@ def calculate_pos():
 
 @app.route("/upload_time_fired/", methods = ['POST', 'GET'])
 def upload_time_fired():
+    print("Hi")
     if request.method == 'POST':
         print(request.json)
         time_fired = request.json['time_fired']
