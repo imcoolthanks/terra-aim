@@ -23,8 +23,8 @@ def upload_gyroscope():
     if request.method == 'POST':
         # Get gyroscope data
         res = request.json
-        yaw = res['pow']
-        pitch = res['pitch']
+        yaw = res['BAM']
+        pitch = res['POW']
 
         # Pre-process data
 
