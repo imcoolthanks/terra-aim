@@ -183,6 +183,7 @@ def check_fired():
             
             # Call heyang's function
             x, y = coordinateMap.get_position(dx, dy, yaw, pitch)
+            print(x, y)
         
         data = {
             "fired" : len(fireRows) > 0,
@@ -191,6 +192,6 @@ def check_fired():
         }
 
         return jsonify(data)
-        
+    print("Did not go into get func in check_fired")    
     return render_template('fail.html')
 
