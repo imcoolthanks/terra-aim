@@ -52,8 +52,6 @@ def upload_position():
         dx = res['x']
         dy = res['y']
 
-        print(dx, dy)
-
         currentTime = datetime.now()
 
         insert_position_database(currentTime, dx, dy)   

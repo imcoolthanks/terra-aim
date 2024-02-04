@@ -14,8 +14,8 @@ class CoordinateMap:
 
     def get_position(self, x, y, yaw, pitch):
         try:
-            projected_x = self.screen_width / 2 + 1.5 * (x - self.middle_x + self.distance * tan(yaw * ( pi / 180.0 )))
-            projected_y = self.screen_height / 2 + 0.5 * (y - self.middle_y + self.distance * tan(pitch * ( pi / 180.0 )))
+            projected_x = self.screen_width / 2 + 1 * (x - self.middle_x + self.distance * tan(yaw * ( pi / 180.0 )))
+            projected_y = self.screen_height / 2 + 0.8 * (y - self.middle_y + self.distance * tan(pitch * ( pi / 180.0 )))
 
             if projected_x < 0:
                 projected_x = 0
@@ -27,7 +27,7 @@ class CoordinateMap:
             if projected_y > self.screen_height:
                 projected_y = self.screen_height
 
-            print(f"projected_x: {projected_x}, projected_y: {projected_y}")
+            print(f"projected_x: {projected_x / self.screen_width}, projected_y: {projected_y / self.screen_height}")
             
             return (projected_x / self.screen_width, projected_y / self.screen_height)
         except (ZeroDivisionError, ValueError):
