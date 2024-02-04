@@ -49,6 +49,7 @@ def insert_heartrate_database(currentTime, heartrate):
     insert_query = """INSERT INTO heartrate (time, heartrate) 
                                         VALUES (?,?)"""
     cur.execute(insert_query, (currentTime, heartrate))
+    print(currentTime, heartrate)
 
     #Save changes
     conn.commit()

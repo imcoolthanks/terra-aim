@@ -38,19 +38,19 @@ def upload_heartrate():
         res = request.json['d']
         ts = res['ts']
         heartrate = res['val']
-        insert_heartrate_database(ts, heartrate)   
+        insert_heartrate_database(ts, heartrate)
     return render_template('home2.html')
 
 @app.route("/upload_position/", methods = ['POST', 'GET'])
 def upload_position():                
     if request.method == 'POST':
-        # Get position data
-        dx = 0
-        dy = 0
+        dx = request.json['x']
+        dy = request.json['y']
 
         currentTime = datetime.now()
 
         insert_position_database(currentTime, dx, dy)   
+        
     return render_template('home2.html')
 
 @app.route("/get_average_heartrate/", methods = ['POST', 'GET'])
@@ -107,6 +107,7 @@ def calculate_pos():
 
         print(x, y)
 
+        # TODO: send x and y to the frontend
         data = { 
             "projectedX" : 0.5, 
             "projectedY" : 0.5, 
