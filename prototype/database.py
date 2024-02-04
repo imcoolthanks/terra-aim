@@ -106,34 +106,6 @@ def insert_clicked_database(currentTime):
     conn.close()
     print("Loading completed")
 
-def create_examples_accuracy():
-    #Create database file/connect to it
-    conn = sql.connect("data.db")
-
-    #Create table
-    conn.execute("""CREATE TABLE accuracy (value float)""")
-
-    print("table created")
-
-    insert_accuracy_database(10)
-
-    conn.close()
-
-def insert_accuracy_database(value):
-    conn = sql.connect("data.db")
-    cur = conn.cursor()
-
-    #Load all rows
-    insert_query = """INSERT INTO accuracy (accuracy) 
-                                        VALUES (?)"""
-    cur.execute(insert_query, (value, ))
-
-    #Save changes
-    conn.commit()
-
-    conn.close()
-
-
 def list_clicked():
     conn = sql.connect("data.db")
     cur = conn.cursor()
@@ -190,17 +162,13 @@ def reset():
     create_examples_gyroscope()
     create_examples_heartrate()
     create_examples_position()
-    create_examples_accuracy()
     
     insert_clicked_database(datetime.now())
     insert_gyroscope_database(datetime.now(), 1, 1)
     insert_heartrate_database(datetime.now(), 50)
     insert_position_database(datetime.now(), 1, 1)
-    insert_accuracy_database(10)
 
     list_gyroscope()
     list_heartrate()
     list_position()
     list_clicked()
-
-reset()
