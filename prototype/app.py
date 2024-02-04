@@ -54,9 +54,7 @@ def upload_position():
 
         currentTime = datetime.now()
 
-        print("boo")
-        print(dx,dy)
-        print("boo")
+        print("dx from phone: " + dx, "dy from phone: "dy)
 
         insert_position_database(currentTime, dx, dy)   
         return render_template('success.html')
