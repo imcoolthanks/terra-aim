@@ -141,9 +141,47 @@ def check_fired():
                 """
         cur.execute(query, (currTime,))
         rows = list(cur.fetchall())
+        x = 0
+        y = 0
+        
+        if len(rows) > 1:
+            currentTime = datetime.now()
+
+            # Get gyroscope data
+            query = """SELECT *
+                    FROM gyroscope
+                    WHERE gyroscope.time < ?
+                    ORDER BY gyroscope.time DESC
+                    LIMIT 1
+                    """
+            cur.execute(query, (currentTime,))
+            rows = list(cur.fetchall())
+
+            yaw = rows[0][1]
+            pitch = rows[0][2]
+
+            # Get position data
+            query = """SELECT *
+            FROM position
+            WHERE position.time < ?
+            ORDER BY position.time DESC
+            LIMIT 1
+            """
+
+            coordinateMap = CoordinateMap(((0, 0, 0, 0), (1, 1, 90, 90)), 5)
+            cur.execute(query, (currentTime,))
+            rows = list(cur.fetchall())
+            
+            dx = rows[0][1]
+            dy = rows[0][2]
+            
+            # Call heyang's function
+            x, y = coordinateMap.get_position(-dx, -dy, yaw, pitch)
         
         data = {
-            "fired" : True
+            "fired" : len(rows) > 1,
+            "projectedX" : x,
+            "projectedY" : y
         }
 
         return jsonify(data)
