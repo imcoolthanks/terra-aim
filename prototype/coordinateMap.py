@@ -29,6 +29,6 @@ class CoordinateMap:
 
             print(f"projected_x: {projected_x}, projected_y: {projected_y}")
             
-            return (projected_x / self.screen_width, projected_y / self.screen_height)
+            return (projected_x / 100, projected_y / 56)
         except (ZeroDivisionError, ValueError):
             return (0.5, 0.5)
