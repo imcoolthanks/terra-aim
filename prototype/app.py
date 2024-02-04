@@ -138,7 +138,7 @@ def check_fired():
         cur = conn.cursor()
         query = """SELECT *
                 FROM clicked
-                WHERE clicked.time < ?
+                WHERE clicked.time < ? 
                 ORDER BY clicked.time DESC
                 LIMIT 1
                 """
@@ -146,11 +146,12 @@ def check_fired():
         fireRows = list(cur.fetchall())
         x = 0
         y = 0
-
-        print(fireRows)
         
         if len(fireRows) > 0:
-            print("Fired")
+            # Delete all entries
+            query = """DELETE FROM clicked"""
+            cur.execute(query)
+
             currentTime = datetime.now()
 
             # Get gyroscope data
