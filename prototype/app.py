@@ -121,9 +121,7 @@ def calculate_pos():
 
 @app.route("/upload_time_fired/", methods = ['POST', 'GET'])
 def upload_time_fired():
-    print("Hi")
     if request.method == 'POST':
-        print(request.json)
         time_fired = request.json['time_fired']
         insert_clicked_database(time_fired)        
         return render_template('success.html')
@@ -134,8 +132,6 @@ def check_fired():
     if request.method == 'GET':
         currTime = datetime.now()
         deltaCurrTime = datetime.now() - timedelta(seconds=0.3)
-
-        print("Checking fired")
 
         conn = sql.connect("data.db")
         cur = conn.cursor()
