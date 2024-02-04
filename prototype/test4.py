@@ -37,7 +37,7 @@ def handle(res):
         # newRate = res["d"]["val"]
         print(res)
 
-        requests.post("localhost:5000/upload_heartrate/", json=res)
+        requests.post("http://165.227.237.10/upload_heartrate/", json=res)
         print("this is running")
 
 def getAuth():
