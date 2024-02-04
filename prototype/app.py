@@ -148,10 +148,6 @@ def check_fired():
         y = 0
         
         if len(fireRows) > 0:
-            # Delete all entries
-            query = """DELETE FROM clicked"""
-            cur.execute(query)
-
             currentTime = datetime.now()
 
             # Get gyroscope data
