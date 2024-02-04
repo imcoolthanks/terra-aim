@@ -35,6 +35,7 @@ function fetchHeartRateData() {
         // Update the chart data and labels for heart rate
         heartRateData.labels.push(heartRateData.labels.length);
         heartRateData.datasets[0].data.push(data.value);
+        console.log(data)
 
         // Remove the oldest data point if there are too many points to keep the graph moving
         if (heartRateData.labels.length > 20) {
