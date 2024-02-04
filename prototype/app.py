@@ -54,7 +54,9 @@ def upload_position():
 
         currentTime = datetime.now()
 
+        print("boo")
         print(dx,dy)
+        print("boo")
 
         insert_position_database(currentTime, dx, dy)   
         return render_template('success.html')
@@ -132,12 +134,10 @@ def check_fired():
         "fired" : False,
         "projectedX" : 0,
         "projectedY" : 0,
-    }
+    } 
     if request.method == 'GET':
         currTime = datetime.now()
         deltaCurrTime = datetime.now() - timedelta(seconds=0.005)
-
-        print(currTime, deltaCurrTime)
 
         conn = sql.connect("data.db")
         cur = conn.cursor()
@@ -190,6 +190,7 @@ def check_fired():
             x, y = 0, 0
             try :
                 x, y = coordinateMap.get_position(dx, dy, yaw, pitch)
+                print(x, y)
             except:
                 x = 0.5
                 y = 0.5
