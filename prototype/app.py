@@ -199,7 +199,7 @@ def check_fired():
         data = {
             "fired" : len(fireRows) > 0,
             "projectedX" : x,
-            "projectedY" : y
+            "projectedY" : y,
         }
 
         return jsonify(data)
