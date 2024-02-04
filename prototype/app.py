@@ -3,7 +3,7 @@
 import sqlite3 as sql
 from flask import Flask, request, jsonify
 from flask import render_template
-from prototype.database import create_examples_gyroscope, create_examples_position, insert_gyroscope_database, insert_position_database, list_gyroscope, list_position, create_examples_heartrate, insert_heartrate_database, list_heartrate, create_examples_clicked, insert_clicked_database, list_clicked
+from database import create_examples_gyroscope, create_examples_position, insert_gyroscope_database, insert_position_database, list_gyroscope, list_position, create_examples_heartrate, insert_heartrate_database, list_heartrate, create_examples_clicked, insert_clicked_database, list_clicked
 from coordinateMap import CoordinateMap
 
 import requests
