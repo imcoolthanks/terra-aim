@@ -186,11 +186,18 @@ def check_fired():
             dy = 56.25 - dy
             
             # Call heyang's function
-            x, y = coordinateMap.get_position(dx, dy, yaw, pitch)
+            x, y = 0, 0
+            try :
+                x, y = coordinateMap.get_position(dx, dy, yaw, pitch)
+            except:
+                x = 0.5
+                y = 0.5
+
+
             print(x, y)
         
         data = {
-            "fired" : True,
+            "fired" : len(fireRows) > 0,
             "projectedX" : x,
             "projectedY" : y
         }
