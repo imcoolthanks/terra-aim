@@ -131,7 +131,6 @@ def upload_time_fired():
 def check_fired():
     if request.method == 'GET':
         currTime = datetime.now()
-        insert_clicked_database(currTime - timedelta(seconds=0.1))
         deltaCurrTime = datetime.now() - timedelta(seconds=0.3)
 
         conn = sql.connect("data.db")
