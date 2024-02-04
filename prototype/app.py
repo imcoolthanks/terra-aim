@@ -137,6 +137,8 @@ def check_fired():
         currTime = datetime.now()
         deltaCurrTime = datetime.now() - timedelta(seconds=0.005)
 
+        print(currTime, deltaCurrTime)
+
         conn = sql.connect("data.db")
         cur = conn.cursor()
         query = """SELECT *
