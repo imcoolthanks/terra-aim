@@ -148,7 +148,7 @@ def check_fired():
         x = 0
         y = 0
         
-        if len(fireRows) > 0:
+        if True:
             currentTime = datetime.now()
 
             # Get gyroscope data
