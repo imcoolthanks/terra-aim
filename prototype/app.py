@@ -129,6 +129,11 @@ def upload_time_fired():
 @app.route("/check_fired/", methods = ['POST', 'GET'])
 def check_fired():
     print("In check_fired")
+    data = {
+        "fired" : false,
+        "projectedX" : 0,
+        "projectedY" : 0,
+    }
     if request.method == 'GET':
         print("GETTTTTT")
         currTime = datetime.now()
@@ -198,7 +203,5 @@ def check_fired():
             "projectedY" : y,
         }
 
-        return jsonify(data)
-    print("Did not go into get func in check_fired")    
-    return render_template('fail.html')
+    return jsonify(data)
 
