@@ -133,15 +133,17 @@ def check_fired():
         currTime = datetime.now()
         deltaCurrTime = datetime.now() - timedelta(seconds=0.3)
 
+        print("Checking fired")
+
         conn = sql.connect("data.db")
         cur = conn.cursor()
         query = """SELECT *
                 FROM clicked
-                WHERE clicked.time < ? AND clicked.time > ?
+                WHERE clicked.time < ?
                 ORDER BY clicked.time DESC
                 LIMIT 1
                 """
-        cur.execute(query, (currTime, deltaCurrTime))
+        cur.execute(query, (currTime, ))
         rows = list(cur.fetchall())
         x = 0
         y = 0

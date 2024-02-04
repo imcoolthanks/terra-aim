@@ -28,7 +28,6 @@ def insert_gyroscope_database(currentTime, yaw, pitch):
     conn.commit()
 
     conn.close()
-    print("Loading completed")
 
 def create_examples_heartrate():
     #Create database file/connect to it
@@ -79,7 +78,6 @@ def insert_position_database(currentTime, dx, dy):
     conn.commit()
 
     conn.close()
-    print("Loading completed")
 
 def create_examples_clicked():
     #Create database file/connect to it
