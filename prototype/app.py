@@ -130,7 +130,7 @@ def upload_time_fired():
 def check_fired():
     print("In check_fired")
     data = {
-        "fired" : false,
+        "fired" : False,
         "projectedX" : 0,
         "projectedY" : 0,
     }
