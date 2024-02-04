@@ -173,5 +173,3 @@ def reset():
     list_heartrate()
     list_position()
     list_clicked()
-
-reset()
