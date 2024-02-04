@@ -54,6 +54,8 @@ def upload_position():
 
         currentTime = datetime.now()
 
+        print(dx,dy)
+
         insert_position_database(currentTime, dx, dy)   
         return render_template('success.html')
     return render_template('fail.html')
@@ -108,8 +110,6 @@ def calculate_pos():
         # Call heyang's function
         x, y = coordinateMap.get_position(-dx, -dy, yaw, pitch)
 
-        print(x, y)
-
         # TODO: send x and y to the frontend
         data = { 
             "projectedX" : 0.5, 
@@ -128,14 +128,12 @@ def upload_time_fired():
 
 @app.route("/check_fired/", methods = ['POST', 'GET'])
 def check_fired():
-    print("In check_fired")
     data = {
         "fired" : False,
         "projectedX" : 0,
         "projectedY" : 0,
     }
     if request.method == 'GET':
-        print("GETTTTTT")
         currTime = datetime.now()
         deltaCurrTime = datetime.now() - timedelta(seconds=0.005)
 
@@ -193,9 +191,6 @@ def check_fired():
             except:
                 x = 0.5
                 y = 0.5
-
-
-            print(x, y)
         
         data = {
             "fired" : len(fireRows) > 0,
