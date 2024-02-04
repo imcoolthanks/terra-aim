@@ -1,4 +1,4 @@
-from math import tan, inf
+from math import tan, pi
 
 class CoordinateMap:
     def __init__(self, distance, middle_x, middle_y, screen_width, screen_height):
@@ -14,8 +14,8 @@ class CoordinateMap:
 
     def get_position(self, x, y, yaw, pitch):
         try:
-            projected_x = self.screen_width / 2 + x - self.middle_x + self.distance / tan(yaw)
-            projected_y = self.screen_height / 2 + y - self.middle_y + self.distance / tan(pitch)
+            projected_x = self.screen_width / 2 + x - self.middle_x + self.distance / tan(yaw * ( pi / 180.0 ))
+            projected_y = self.screen_height / 2 + y - self.middle_y + self.distance / tan(pitch * ( pi / 180.0 ))
 
             if projected_x < 0:
                 projected_x = 0
