@@ -145,7 +145,7 @@ def check_fired():
         x = 0
         y = 0
         
-        if len(rows) > 1:
+        if len(rows) > 0:
             currentTime = datetime.now()
 
             # Get gyroscope data
@@ -163,11 +163,11 @@ def check_fired():
 
             # Get position data
             query = """SELECT *
-            FROM position
-            WHERE position.time < ?
-            ORDER BY position.time DESC
-            LIMIT 1
-            """
+                    FROM position
+                    WHERE position.time < ?
+                    ORDER BY position.time DESC
+                    LIMIT 1
+                    """
 
             coordinateMap = CoordinateMap(((0, 0, 0, 0), (1, 1, 90, 90)), 5)
             cur.execute(query, (currentTime,))
@@ -180,7 +180,7 @@ def check_fired():
             x, y = coordinateMap.get_position(-dx, -dy, yaw, pitch)
         
         data = {
-            "fired" : len(rows) > 1,
+            "fired" : len(rows) > 0,
             "projectedX" : x,
             "projectedY" : y
         }
