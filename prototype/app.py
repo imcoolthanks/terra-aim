@@ -121,7 +121,6 @@ def calculate_pos():
 @app.route("/upload_time_fired/", methods = ['POST', 'GET'])
 def upload_time_fired():
     if request.method == 'POST':
-        print(request.json)
         time_fired = request.json['time_fired']
         insert_clicked_database(time_fired)        
         return render_template('success.html')
@@ -139,11 +138,11 @@ def check_fired():
         cur = conn.cursor()
         query = """SELECT *
                 FROM clicked
-                WHERE clicked.time < ? AND clicked.time > ?
+                WHERE clicked.time < ?
                 ORDER BY clicked.time DESC
                 LIMIT 1
                 """
-        cur.execute(query, (currTime, deltaCurrTime))
+        cur.execute(query, (currTime, ))
         fireRows = list(cur.fetchall())
         x = 0
         y = 0
