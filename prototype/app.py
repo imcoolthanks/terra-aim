@@ -19,8 +19,7 @@ def home():
     return render_template('home.html')
 
 @app.route("/upload_gyroscope/", methods = ['POST', 'GET'])
-def upload_gyroscope(): 
-    print("Gyroscope")               
+def upload_gyroscope():            
     if request.method == 'POST':
         # Get gyroscope data
         res = request.json
@@ -130,7 +129,9 @@ def upload_time_fired():
 
 @app.route("/check_fired/", methods = ['POST', 'GET'])
 def check_fired():
+    print("In check_fired")
     if request.method == 'GET':
+        print("GETTTTTT")
         currTime = datetime.now()
         deltaCurrTime = datetime.now() - timedelta(seconds=0.3)
 
