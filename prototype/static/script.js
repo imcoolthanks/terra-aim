@@ -34,7 +34,7 @@ function fetchHeartRateData() {
     $.get('/get_average_heartrate/', function (data) {
         // Update the chart data and labels
         heartRateData.labels.push(heartRateData.labels.length);
-        heartRateData.datasets[0].data.push(data[1]);
+        heartRateData.datasets[0].data.push(data);
 
         // Remove the oldest data point if there are too many points to keep the graph moving
         if (heartRateData.labels.length > 20) {
