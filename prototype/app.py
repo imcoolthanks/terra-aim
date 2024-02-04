@@ -172,15 +172,18 @@ def check_fired():
                     LIMIT 1
                     """
 
-            coordinateMap = CoordinateMap(((0, 0, 0, 0), (1, 1, 90, 90)), 5)
+            coordinateMap = CoordinateMap(95, 50, 28.12, 25.5, 14.3)
             cur.execute(query, (currentTime,))
             rows = list(cur.fetchall())
             
             dx = rows[0][1]
             dy = rows[0][2]
+
+            dx = 100 - dx
+            dy = 56.25 - dy
             
             # Call heyang's function
-            x, y = coordinateMap.get_position(-dx, -dy, yaw, pitch)
+            x, y = coordinateMap.get_position(dx, dy, yaw, pitch)
         
         data = {
             "fired" : len(rows) > 0,
