@@ -49,8 +49,8 @@ def upload_heartrate():
 def upload_position():                
     if request.method == 'POST':
         res = request.json
-        dx = res['x']
-        dy = res['y']
+        dx = res['x'] / 10
+        dy = res['y'] / 10
 
         currentTime = datetime.now()
 
