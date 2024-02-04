@@ -139,11 +139,11 @@ def check_fired():
         cur = conn.cursor()
         query = """SELECT *
                 FROM clicked
-                WHERE clicked.time < ?
+                WHERE clicked.time < ? AND clicked.time > ?
                 ORDER BY clicked.time DESC
                 LIMIT 1
                 """
-        cur.execute(query, (currTime, ))
+        cur.execute(query, (currTime, deltaCurrTime))
         rows = list(cur.fetchall())
         x = 0
         y = 0
