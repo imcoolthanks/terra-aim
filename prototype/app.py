@@ -98,7 +98,7 @@ def calculate_pos():
         LIMIT 1
         """
 
-        coordinateMap = CoordinateMap(((0, 0, 0, 0), (1, 1, 90, 90)), 5)
+        coordinateMap = CoordinateMap(95, 50, 28.12, 25.5, 14.3)
         cur.execute(query, (currentTime,))
         rows = list(cur.fetchall())
         

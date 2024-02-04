@@ -1,19 +1,21 @@
 from math import tan, inf
 
 class CoordinateMap:
-    def __init__(self, distance, screen_width, screen_height):
+    def __init__(self, distance, middle_x, middle_y, screen_width, screen_height):
 
         # TODO: make sure that increase yaw and pitch correlate to increase in x and y
         
         # calibration_coordinates = [("x", "y", "yaw", "pitch"), ...]
         self.distance = distance
+        self.middle_x = middle_x
+        self.middle_y = middle_y
         self.screen_width = screen_width
         self.screen_height = screen_height
 
     def get_position(self, x, y, yaw, pitch):
         try:
-            projected_x = self.screen_width / 2 + self.distance / tan(yaw)
-            projected_y = self.screen_height / 2 + self.distance / tan(pitch)
+            projected_x = self.screen_width / 2 + x - self.middle_x + self.distance / tan(yaw)
+            projected_y = self.screen_height / 2 + y - self.middle_y + self.distance / tan(pitch)
 
             print(f"projected_x: {projected_x}, projected_y: {projected_y}")
             
