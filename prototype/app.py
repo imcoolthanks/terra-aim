@@ -122,6 +122,7 @@ def calculate_pos():
 @app.route("/upload_time_fired/", methods = ['POST', 'GET'])
 def upload_time_fired():
     if request.method == 'POST':
+        print(request.json)
         time_fired = request.json['time_fired']
         insert_clicked_database(time_fired)        
         return render_template('success.html')
